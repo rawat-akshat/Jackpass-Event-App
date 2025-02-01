@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-export default function MediaUploader({ onUpload, clearMedia }) { // ✅ Ensure clearMedia is received
+export default function MediaUploader({ onUpload }) {
   const [preview, setPreview] = useState(null);
 
   const handleMediaUpload = (e) => {
@@ -10,27 +10,20 @@ export default function MediaUploader({ onUpload, clearMedia }) { // ✅ Ensure 
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setPreview(reader.result); // Set preview for user
-        onUpload(reader.result); // Pass Base64 data to parent
+        setPreview(reader.result); // ✅ Only show preview, not store in sessionStorage
+        onUpload(reader.result); // ✅ Pass Base64 to parent for immediate use (but not stored)
       };
 
       reader.readAsDataURL(file);
     }
   };
 
-  // ✅ Reset preview when `clearMedia` becomes `true`
-  useEffect(() => {
-    if (clearMedia) {
-      setPreview(null);
-    }
-  }, [clearMedia]);
-
   return (
     <div className="mb-4">
       <label className="block font-semibold">Upload Image/Video:</label>
       <input type="file" accept="image/*,video/*" onChange={handleMediaUpload} className="w-full p-2 border rounded" />
 
-      {/* Media Preview */}
+      {/* ✅ Only display preview temporarily */}
       {preview && (
         <div className="mt-3">
           {preview.startsWith("data:image") ? (
@@ -38,7 +31,6 @@ export default function MediaUploader({ onUpload, clearMedia }) { // ✅ Ensure 
           ) : (
             <video controls className="w-full max-w-xs rounded border">
               <source src={preview} type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           )}
         </div>

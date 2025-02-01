@@ -1,9 +1,22 @@
 import React from "react";
 import EventForm from "../components/EventForm";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function CreateEvent() {
-  const handleEventSubmit = (eventData) => {
-    console.log("Event Data Submitted:", eventData);
+  const [events, setEvents] = useLocalStorage("events", []); // Load existing events
+
+  const handleEventSubmit = (newEvent) => {
+    const eventWithId = {
+      id: Date.now(),
+      title: newEvent.title,
+      date: newEvent.date,
+      location: newEvent.location,
+      description: newEvent.description,
+      // ✅ Media is NOT stored in localStorage anymore
+    };
+
+    setEvents([...events, eventWithId]);
+    console.log("Event Saved:", eventWithId);
   };
 
   return (
