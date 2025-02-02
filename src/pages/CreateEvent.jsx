@@ -1,27 +1,24 @@
 import React from "react";
+import placeholder1 from "../assets/placeholder1.png";
 import EventForm from "../components/EventForm";
-import useLocalStorage from "../hooks/useLocalStorage";
 
-export default function CreateEvent() {
-  const [events, setEvents] = useLocalStorage("events", []); // Load existing events
-
-  const handleEventSubmit = (newEvent) => {
-    const eventWithId = {
-      id: Date.now(),
-      title: newEvent.title,
-      date: newEvent.date,
-      location: newEvent.location,
-      description: newEvent.description,
-      // ✅ Media is NOT stored in localStorage anymore
-    };
-
-    setEvents([...events, eventWithId]);
-    console.log("Event Saved:", eventWithId);
-  };
-
+export default function CreateEvent({ onSubmit }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <EventForm onSubmit={handleEventSubmit} />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-800 to-indigo-600 p-8">
+      <div className="bg-white bg-opacity-90 shadow-xl rounded-3xl p-8 w-full max-w-2xl">
+        <h2 className="text-4xl font-bold text-gray-800 text-center mb-6">🎭 Create a New Event</h2>
+
+        {/* Single Image Placeholder */}
+        <div className="w-full flex justify-center mb-6">
+          <img
+            src={placeholder1}
+            alt="Event Cover"
+            className="rounded-lg shadow-md w-3/4 h-56 object-cover"
+          />
+        </div>
+
+        <EventForm onSubmit={onSubmit} />
+      </div>
     </div>
   );
 }

@@ -1,35 +1,41 @@
 import React, { useState } from "react";
 
-export default function MediaUploader({ onUpload }) {
+export default function MediaUploader({ onUpload, clearMedia }) {
   const [preview, setPreview] = useState(null);
 
   const handleMediaUpload = (e) => {
     const file = e.target.files[0];
-
     if (file) {
       const reader = new FileReader();
-
       reader.onloadend = () => {
-        setPreview(reader.result); // ✅ Only show preview, not store in sessionStorage
-        onUpload(reader.result); // ✅ Pass Base64 to parent for immediate use (but not stored)
+        setPreview(reader.result);
+        onUpload(reader.result);
       };
-
       reader.readAsDataURL(file);
     }
   };
 
-  return (
-    <div className="mb-4">
-      <label className="block font-semibold">Upload Image/Video:</label>
-      <input type="file" accept="image/*,video/*" onChange={handleMediaUpload} className="w-full p-2 border rounded" />
+  React.useEffect(() => {
+    if (clearMedia) {
+      setPreview(null);
+    }
+  }, [clearMedia]);
 
-      {/* ✅ Only display preview temporarily */}
+  return (
+    <div>
+      <label className="block text-gray-700 font-medium">Upload Image/Video</label>
+      <input
+        type="file"
+        accept="image/*,video/*"
+        onChange={handleMediaUpload}
+        className="mt-2 p-2 border rounded focus:outline-none"
+      />
       {preview && (
-        <div className="mt-3">
+        <div className="mt-4">
           {preview.startsWith("data:image") ? (
-            <img src={preview} alt="Preview" className="w-full max-w-xs rounded border" />
+            <img src={preview} alt="Preview" className="rounded-md shadow-md" />
           ) : (
-            <video controls className="w-full max-w-xs rounded border">
+            <video controls className="rounded-md shadow-md">
               <source src={preview} type="video/mp4" />
             </video>
           )}
