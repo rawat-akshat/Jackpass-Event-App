@@ -1,19 +1,19 @@
 import React from "react";
-import placeholder1 from "../assets/placeholder1.png";
+import placeholder from "../assets/placeholder1.png";
 import EventForm from "../components/EventForm";
 
 export default function CreateEvent({ onSubmit }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-800 to-indigo-600 p-8">
-      <div className="bg-white bg-opacity-90 shadow-xl rounded-3xl p-8 w-full max-w-2xl">
-        <h2 className="text-4xl font-bold text-gray-800 text-center mb-6">🎭 Create a New Event</h2>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 to-indigo-700 p-8">
+      <div className="bg-white bg-opacity-20 backdrop-blur-md shadow-xl rounded-3xl p-8 max-w-xl w-full">
+        <h2 className="text-4xl font-bold text-white text-center mb-6">🎭 Create a New Event</h2>
 
-        {/* Single Image Placeholder */}
-        <div className="w-full flex justify-center mb-6">
+        {/* Single Image (No Repetition) */}
+        <div className="w-full mb-6">
           <img
-            src={placeholder1}
+            src={placeholder}
             alt="Event Cover"
-            className="rounded-lg shadow-md w-3/4 h-56 object-cover"
+            className="w-full h-48 object-cover rounded-lg shadow-md"
           />
         </div>
 
